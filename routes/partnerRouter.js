@@ -18,7 +18,7 @@ partnerRouter.route('/:partnerId/comments')
     })
     .catch(err => next(err));
 })
-.post((req, res, next) => {
+.post(authenticate.verifyUser, authenticate.verifyAdmin, (req, res, next) => {
     partner.findById(req.params.partnerId)
     .then(partner => {
         if (partner) {
@@ -38,11 +38,11 @@ partnerRouter.route('/:partnerId/comments')
     })
     .catch(err => next(err));
 })
-.put((req, res) => {
+.put(authenticate.verifyUser, authenticate.verifyAdmin,(req, res) => {
     res.statusCode = 403;
     res.end(`PUT operation not supported on /partners/${req.params.partnerId}/comments`);
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, authenticate.verifyAdmin,(req, res, next) => {
     partner.findById(req.params.partnerId)
     .then(partner => {
         if (partner) {
@@ -66,7 +66,7 @@ partnerRouter.route('/:partnerId/comments')
 });
 
 partnerRouter.route('/:partnerId/comments/:commentId')
-.get((req, res, next) => {
+.get(authenticate.verifyUser, authenticate.verifyAdmin,(req, res, next) => {
     partner.findById(req.params.partnerId)
     .then(partner => {
         if (partner && partner.comments.id(req.params.commentId)) {
@@ -89,7 +89,7 @@ partnerRouter.route('/:partnerId/comments/:commentId')
     res.statusCode = 403;
     res.end(`POST operation not supported on /partners/${req.params.partnerId}/comments/${req.params.commentId}`);
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser, authenticate.verifyAdmin,(req, res, next) => {
     partner.findById(req.params.partnerId)
     .then(partner => {
         if (partner && partner.comments.id(req.params.commentId)) {
@@ -118,7 +118,7 @@ partnerRouter.route('/:partnerId/comments/:commentId')
     })
     .catch(err => next(err));
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, authenticate.verifyAdmin,(req, res, next) => {
     partner.findById(req.params.partnerId)
     .then(partner => {
         if (partner && partner.comments.id(req.params.commentId)) {

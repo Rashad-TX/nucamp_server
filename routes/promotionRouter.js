@@ -18,7 +18,7 @@ promotionRouter.route('/:promotionId/comments')
     })
     .catch(err => next(err));
 })
-.post((req, res, next) => {
+.post(authenticate.verifyUser, authenticate.verifyAdmin,(req, res, next) => {
     promotion.findById(req.params.promotionId)
     .then(promotion => {
         if (promotion) {
@@ -42,7 +42,7 @@ promotionRouter.route('/:promotionId/comments')
     res.statusCode = 403;
     res.end(`PUT operation not supported on /promotions/${req.params.promotionId}/comments`);
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, authenticate.verifyAdmin,(req, res, next) => {
     promotion.findById(req.params.promotionId)
     .then(promotion => {
         if (promotion) {
@@ -89,7 +89,7 @@ promotionRouter.route('/:promotionId/comments/:commentId')
     res.statusCode = 403;
     res.end(`POST operation not supported on /promotions/${req.params.promotionId}/comments/${req.params.commentId}`);
 })
-.put((req, res, next) => {
+.put(authenticate.verifyUser, authenticate.verifyAdmin,(req, res, next) => {
     promotion.findById(req.params.promotionId)
     .then(promotion => {
         if (promotion && promotion.comments.id(req.params.commentId)) {
@@ -118,7 +118,7 @@ promotionRouter.route('/:promotionId/comments/:commentId')
     })
     .catch(err => next(err));
 })
-.delete((req, res, next) => {
+.delete(authenticate.verifyUser, authenticate.verifyAdmin,(req, res, next) => {
     promotion.findById(req.params.promotionId)
     .then(promotion => {
         if (promotion && promotion.comments.id(req.params.commentId)) {

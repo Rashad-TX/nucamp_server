@@ -34,3 +34,19 @@ exports.jwtPassport = passport.use(
 );
 
 exports.verifyUser = passport.authenticate('jwt', {session: false});
+
+
+exports.verifyAdmin - (req, res, next) => {
+    return next()
+} else {
+    const err = new Error('You shall not pass!');
+    err.status = 403;
+    return next(err);
+}
+}
+
+req:{
+    user:{
+        admin: true
+    }
+}
